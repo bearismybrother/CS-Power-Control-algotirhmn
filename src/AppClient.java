@@ -1,8 +1,9 @@
-/* This is a stub code. You can modify it as you wish. */
+
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
+import java.io.*;
 class AppClient{
 	
 	public void readAppFile(String file){ // method to read the comma seperated appliance file.
