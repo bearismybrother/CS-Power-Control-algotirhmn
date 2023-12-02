@@ -1,50 +1,99 @@
+import java.util.Random; 
 
 public class Appliance {
-	private String type;
+	private int location;
+	private String description;
 	private int onWattage;
 	private double probability;
-	private int location;
-	private int ID;
+	private boolean isSmart;
+	private double powerReduction;
+	private String currentMode = "off"; //can be off, on or low
 	
-	public Appliance(String type, int onWattage, double probability, int location, int iD) {
-		super();
-		this.type = type;
-		this.onWattage = onWattage;
-		this.probability = probability;
-		this.location = location;
-		ID = iD;
+	public Appliance(int location, String description, int onWattage, double probability, boolean isSmart, double powerReduction) {
+	    this.location = location;
+	    this.description = description;
+	    this.onWattage = onWattage;
+	    this.probability = probability;
+	    this.isSmart = isSmart;
+	    this.powerReduction = powerReduction;
+	    
+	    RandomizeCurrentMode(); 
 	}
 	
-	public String getType() {
-		return type;
+	public double getCurrentWattageUsage()
+	{
+		if (currentMode == "off")
+			return 0;
+		else  //on
+		{
+			if (isSmart == true)
+				return onWattage * (1-powerReduction);
+			else 
+				return (double)onWattage;  //regular
+		}
 	}
-	public void setType(String type) {
-		this.type = type;
+	
+	private void RandomizeCurrentMode() {
+	    if (rollGenerator() <= probability)
+	    {
+	    	currentMode = "on";
+	    }
 	}
-	public int getOnWattage() {
-		return onWattage;
-	}
-	public void setOnWattage(int onWattage) {
-		this.onWattage = onWattage;
-	}
-	public double getProbability() {
-		return probability;
-	}
-	public void setProbability(double probability) {
-		this.probability = probability;
-	}
-	public int getLocation() {
-		return location;
-	}
-	public void setLocation(int location) {
-		this.location = location;
-	}
-	public int getID() {
-		return ID;
-	}
-	public void setID(int iD) {
-		ID = iD;
-	}
+	
+	 private double rollGenerator() {
+	        Random random = new Random();
+	        return random.nextDouble();
+	 }
+	
+    // Getter methods
+    public int getLocation() {
+        return location;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public int getOnWattage() {
+        return onWattage;
+    }
+
+    public double getProbability() {
+        return probability;
+    }
+
+    public boolean isSmart() {
+        return isSmart;
+    }
+
+    public double getPowerReduction() {
+        return powerReduction;
+    }
+
+    // Setter methods
+    public void setLocation(int location) {
+        this.location = location;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setOnWattage(int onWattage) {
+        this.onWattage = onWattage;
+    }
+
+    public void setProbability(double probability) {
+        this.probability = probability;
+    }
+
+    public void setSmart(boolean isSmart) {
+        this.isSmart = isSmart;
+    }
+
+    public void setPowerReduction(double powerReduction) {
+        this.powerReduction = powerReduction;
+    }
 	
 	
 
