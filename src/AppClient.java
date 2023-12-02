@@ -1,8 +1,7 @@
-
-
 import java.io.File;
 import java.util.Scanner;
 import java.io.*;
+
 class AppClient{
 	
 	public void readAppFile(String file){ // method to read the comma seperated appliance file.
@@ -30,11 +29,14 @@ class AppClient{
 	
 	public static void main(String []args){
 		
+		System.out.println("Current Working Directory: " + System.getProperty("user.dir") + "\n");
+		
 		AppClient app = new AppClient();
+		boolean runApplication = true;
 		//User interactive part
 		String option1, option2;
 		Scanner scan = new Scanner(System.in);
-		while(true){// Application menu to be displayed to the user.
+		while(runApplication){// Application menu to be displayed to the user.
 			System.out.println("Select an option:");
 			System.out.println("Type \"A\" Add an appliance");
 			System.out.println("Type \"D\" Delete an appliance");	
@@ -45,7 +47,30 @@ class AppClient{
 			option1=scan.nextLine();
 			/* Complete the skeleton code below */
 		
-				
+			switch (option1) {
+			case "A":
+				System.out.println("TODO: implement adding an appliance menu option\n");
+				break;
+			case "D":
+				System.out.println("TODO: implement deleting an appliance menu option\n");
+				break;
+			case "L":
+				System.out.println("TODO: implement listing the appliances menu option\n");
+				break;
+			case "F":
+				//thing
+				break;
+			case "S":
+				System.out.println("TODO: implement starting simulation menu option\n");
+				break;
+			case "Q":
+				System.out.println("Program is now closed");
+				runApplication = false;
+				break;
+			default: //invalid inputs
+		         System.out.println("Error: Invalid input\n");
+		         break; 
+			}
 		}
 		
 		
