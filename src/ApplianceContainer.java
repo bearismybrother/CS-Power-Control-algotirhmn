@@ -10,6 +10,11 @@ public class ApplianceContainer {
 		appliances.add(appliance);
 	}
 	
+	public void deleteappliance(Appliance appliance) 
+	{
+		appliances.remove(appliance);
+	}
+	
 	public void brownOut()
 	{
 		for (Appliance appliance : appliances )

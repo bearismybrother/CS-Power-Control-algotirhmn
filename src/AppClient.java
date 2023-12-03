@@ -6,8 +6,6 @@ import java.util.*;
 
 class AppClient{
 	
-	
-	
 	public static void readAppFile(Map<Integer, ApplianceContainer> locations,String file){ // method to read the comma separated appliance file.
 		Scanner scan;
 		int appCount = 0;
@@ -40,8 +38,15 @@ class AppClient{
 	}
 
 	public static void addAppliance(Map<Integer, ApplianceContainer> locations, Appliance myApp) {
-	
-		
+		int locationID= myApp.getLocation();
+		if (locations.containsKey(locationID)) {
+			locations.get(locationID).addAppliance(myApp);
+		}
+		else 
+		{
+			locations.put(locationID, new ApplianceContainer());
+			locations.get(locationID).addAppliance(myApp);
+		}
 	
 	}
 	
