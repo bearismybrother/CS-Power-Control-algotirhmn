@@ -1,13 +1,14 @@
 import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
-import java.util.Vector;
-
+import java.util.*;
 
 
 class AppClient{
 	
-	public static void readAppFile(Vector<ApplianceContainer> locations,String file){ // method to read the comma separated appliance file.
+	
+	
+	public static void readAppFile(Map<Integer, ApplianceContainer> locations,String file){ // method to read the comma separated appliance file.
 		Scanner scan;
 		int appCount = 0;
 		try {
@@ -20,7 +21,7 @@ class AppClient{
 				String []attributes = str.split(",");
 				//TODO: fix the appliance class because it does not contain the necessary attributes at the moment.
 				Appliance newApp = new Appliance(Integer.parseInt(attributes[0]),attributes[1],Integer.parseInt(attributes[2]),Double.parseDouble(attributes[3]),Boolean.parseBoolean(attributes[4]),Double.parseDouble(attributes[5]));
-				resize(locations,newApp);
+				addAppliance(locations,newApp);
 				appCount++;
 				
 				/*int locationID;
@@ -38,33 +39,21 @@ class AppClient{
 		}
 	}
 
-	public static void resize(Vector<ApplianceContainer> locations, Appliance myApp) {
-		int locationSize = locations.size();
-		//so we'll start reading each line			
-		//see the read appfile method above, it'll retrieve arguments somehow
-		final int startingLocation = location; 
-		int locationInArray = location - startingLocation; 
-		if (locationInArray > locationSize-1)
-		{
-			locations.add(new ApplianceContainer());
-			locationSize++; 
-		}
-		else 
-		{
-			locations[locationInArray].addAppliance(appliance); 
-		}
+	public static void addAppliance(Map<Integer, ApplianceContainer> locations, Appliance myApp) {
+	
 		
-		
-		//set up a queue to start step here!!
+	
 	}
 	
 	public static void main(String []args){
 		
+		Map<Integer, ApplianceContainer> locations = new HashMap<Integer, ApplianceContainer>();
+		
+		
 		System.out.println("Current Working Directory: " + System.getProperty("user.dir") + "\n");
 		
 
-		boolean runApplication = true;
-		Vector<ApplianceContainer> locations = new Vector<ApplianceContainer>(); 
+		boolean runApplication = true; 
 		//User interactive part
 		String option1, option2 = new String();
 		Scanner scan = new Scanner(System.in);
