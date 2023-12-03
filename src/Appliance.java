@@ -9,6 +9,8 @@ public class Appliance {
 	private double powerReduction;
 	private String currentMode = "off"; //can be off, on or low
 	
+
+
 	public Appliance(int location, String description, int onWattage, double probability, boolean isSmart, double powerReduction) {
 	    this.location = location;
 	    this.description = description;
@@ -26,7 +28,7 @@ public class Appliance {
 			return 0;
 		else  //on
 		{
-			if (isSmart == true)
+			if (currentMode == "low")
 				return onWattage * (1-powerReduction);
 			else 
 				return (double)onWattage;  //regular
@@ -95,6 +97,14 @@ public class Appliance {
         this.powerReduction = powerReduction;
     }
 	
+	public String getCurrentMode() {
+		return currentMode;
+	}
+
+	public void setCurrentMode(String currentMode) {
+		this.currentMode = currentMode;
+	}
+    
 	
 
 }

@@ -72,8 +72,7 @@ class AppClient{
 		         System.out.println("Error: Invalid input\n");
 		         break; 
 			}
-		}
-		
+		} 
 		
 	}
 }
