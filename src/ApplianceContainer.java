@@ -1,14 +1,16 @@
+import java.util.Vector;
 
 public class ApplianceContainer {
 
-	private Appliance[] appliances;  //change it into vector
+	private Vector<Appliance> appliances = new Vector<Appliance>();  //change it into vector
 	
-	public ApplianceContainer()
+	
+	public void addAppliance(Appliance appliance) 
 	{
-		
+		appliances.add(appliance);
 	}
 	
-	public void BrownOut()
+	public void brownOut()
 	{
 		for (Appliance appliance : appliances )
 		{
@@ -24,11 +26,18 @@ public class ApplianceContainer {
 		}
 		return total; 
 	}
+	
 	public void decreaseEnergy(int amount) {  
 		for (Appliance appliance : appliances )
 		{
 			if (appliance.isSmart()) 
-				appliance.setCurrentMode("low"); //should I return here?
+			{
+				if (appliance.getCurrentMode()=="on")
+				{
+					appliance.setCurrentMode("low"); 
+					break;   //set only one appliance to low and then break
+				}
+			}
 		}
 	}
 }

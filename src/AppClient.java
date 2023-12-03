@@ -1,7 +1,9 @@
 import java.io.File;
+import java.util.Vector;
 import java.io.IOException;
 import java.util.Scanner;
 import java.io.*;
+
 
 class AppClient{
 	
@@ -27,6 +29,27 @@ class AppClient{
 		}
 	}
 	
+	public void startSimulation() {
+		Vector<ApplianceContainer> locations = new Vector<ApplianceContainer>(); 
+		int locationSize = locations.size();
+		/*so we'll start reading each line
+		Appliance appliance = new Appliance(location, description, onWattage, probability, isSmart, powerReduction);
+		see the read appfile method above, it'll retrieve arguments somehow
+		final int startingLocation = location; 
+		int locationInArray = location - startingLocation; 
+		if (locationInArray > locationSize-1)
+		{
+			locations.add(new ApplianceContainer());
+			locationSize++; 
+		}
+		else 
+		{
+			locations[locationInArray].addAppliance(appliance); 
+		}
+		*/
+		
+		//set up a queue to start step here!!
+	}
 	
 	public static void main(String []args){
 		
