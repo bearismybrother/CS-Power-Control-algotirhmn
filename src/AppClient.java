@@ -17,28 +17,19 @@ class AppClient{
 			while(scan.hasNext()) { 
 				String str = scan.nextLine();
 				String []attributes = str.split(",");
-				//TODO: fix the appliance class because it does not contain the necessary attributes at the moment.
 				Appliance newApp = new Appliance(Integer.parseInt(attributes[0]),attributes[1],Integer.parseInt(attributes[2]),Double.parseDouble(attributes[3]),Boolean.parseBoolean(attributes[4]),Double.parseDouble(attributes[5]));
 				addAppliance(locations,newApp);
 				appCount++;
-				
-				/*int locationID;
-				String appName;
-				int onPower;
-				float probOn;
-				boolean appType;
-				float lowPower;*/
 			}
-			/*Complete the method*/
 			scan.close();
-			System.out.println("Successfully added " + appCount + "new appliances");
+			System.out.println("Successfully added " + appCount + " new appliances.\n");
 		}catch(IOException ioe){ 
 			System.out.println("The file can not be read");
 		}
 	}
 
 	public static void addAppliance(Map<Integer, ApplianceContainer> locations, Appliance myApp) {
-		int locationID= myApp.getLocation();
+		int locationID = myApp.getLocation();
 		if (locations.containsKey(locationID)) {
 			locations.get(locationID).addAppliance(myApp);
 		}
@@ -60,7 +51,7 @@ class AppClient{
 
 		boolean runApplication = true; 
 		//User interactive part
-		String option1, option2 = new String();
+		String option1, option2, option3 = new String();
 		Scanner scan = new Scanner(System.in);
 		while(runApplication){// Application menu to be displayed to the user.
 			System.out.println("Select an option:");
@@ -74,33 +65,53 @@ class AppClient{
 
 			//menu options system
 			switch (option1) {
+			
 			case "A":
-				System.out.println("TODO: implement adding an appliance menu option\n");
+				System.out.println("Please enter the appliance you want to add in this format: \nlocationID,name of app,onPower,probability of staying on, smart or not,Smart appliances (if \"on\") power reduction percent when changed to \"low\" status(floating point, i.e..33=33%).\nMake sure you separate your inputs with \",\" and that there are no spaces anywhere except for the description of the appliance.");
+				option2 = scan.nextLine();
+				String [] tmpArr = option2.split(",");
+				Appliance newApp = new Appliance(Integer.parseInt(tmpArr[0]),tmpArr[1],Integer.parseInt(tmpArr[2]),Double.parseDouble(tmpArr[3]),Boolean.parseBoolean(tmpArr[4]),Double.parseDouble(tmpArr[5]));
+				addAppliance(locations, newApp);
+				System.out.println("Succesfully added: " + newApp.getDescription() + '\n');
 				break;
 			case "D":
 				System.out.println("TODO: implement deleting an appliance menu option\n");
 				break;
 			case "L":
-				System.out.println("TODO: implement listing the appliances menu option\n");
+				if (locations.isEmpty()) 
+				{
+					System.out.println("Error: no objects have been added.\n");
+				}else {
+					locations.forEach((key, value) -> System.out.println("Appliances in location " + key + ":\n" + value.toString()));
+				}
 				break;
 			case "F":
-				
-				System.out.println("Which file do you want to use: Type A for App.txt or type B for Output.txt");
+				System.out.println("Which file do you want to use: Type \"A\" for app.txt, type \"B\" for output.txt, or type \"C\" for a custom file.");
+				option2 = scan.nextLine();
 				switch (option2) {
 				case "A":
 					readAppFile(locations,"app.txt");
 					break;
 				case "B":
-					readAppFile(locations,"Output.txt");
+					readAppFile(locations,"output.txt");
+					break;
+				case "C":
+					System.out.println("Enter the name of the custom text file. Make sure the file is in the correct directory and is properly formated.");
+					option3 = scan.nextLine();
+					readAppFile(locations,option3);
 					break;
 				default: //invalid inputs
 					System.out.println("Error: Invalid input.\n");
 			        break; 
-			        
 				}
 				break;
 			case "S":
-				System.out.println("TODO: implement starting simulation menu option\n");
+				if (locations.isEmpty()) 
+				{
+					System.out.println("Error: no objects have been added.\n");
+				}else {
+					System.out.println("TODO: implement start the simulation menu option");
+				}
 				break;
 			case "Q":
 				System.out.println("Program is now closed");
@@ -112,9 +123,6 @@ class AppClient{
 			}
 
 		} 
-
 		scan.close();
-
-		
 	}
 }

@@ -45,4 +45,14 @@ public class ApplianceContainer {
 			}
 		}
 	}
+	
+	public String toString() {
+		String retString = new String();
+		for (Appliance appliance : appliances) 
+		{
+			retString += appliance.toString();
+		}
+		retString += "\n";
+		return retString;
+	}
 }

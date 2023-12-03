@@ -104,7 +104,11 @@ public class Appliance {
 	public void setCurrentMode(String currentMode) {
 		this.currentMode = currentMode;
 	}
-    
-	
 
+	@Override
+	public String toString() {
+		return "[" + description + ":" + " onWattage = " + onWattage
+				+ ", probability = " + probability + ", isSmart = " + isSmart + ", powerReduction = " + powerReduction
+				+ ", currentMode = " + currentMode + "]\n";
+	}
 }
