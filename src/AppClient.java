@@ -58,7 +58,7 @@ class AppClient{
 			//start of main simulation
 			int locationCount = 0; 
 			int brownOutCount = 0; 
-			while (currentWattageUsage > allowedWattage) {
+			while (currentWattageUsage-ApplianceContainer.energySaved > allowedWattage) {
 				if (locationCount < locationsSortedByWattage.length)
 				{
 					ApplianceContainer temp = locations.get(locationsSortedByWattage[locationCount]);
@@ -76,8 +76,6 @@ class AppClient{
 					{
 					locations.get(locationsSortedBySize[brownOutCount++]).brownOut();			
 					}
-				
-				currentWattageUsage = currentWattageUsage-ApplianceContainer.energySaved; 
 			}
 		}
 	}
