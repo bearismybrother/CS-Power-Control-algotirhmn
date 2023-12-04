@@ -3,6 +3,8 @@ import java.util.Vector;
 public class ApplianceContainer {
 
 	private Vector<Appliance> appliances = new Vector<Appliance>();  //change it into vector
+	public static double energySaved =0; 
+	
 	private static int numSetToLow=0; 
 	private static int numBrownOut=0; 
 	
@@ -22,6 +24,7 @@ public class ApplianceContainer {
 	
 	public void brownOut()
 	{
+		energySaved += this.getCurrentWattageUsage();
 		for (Appliance appliance : appliances )
 		{
 			appliance.setCurrentMode("off"); 
@@ -38,21 +41,39 @@ public class ApplianceContainer {
 		return total; 
 	}
 	
-	public void decreaseEnergy(int amount) {  
+	public boolean containsAnySmartAppliancesON() {
+		for (Appliance appliance : appliances) {
+			if (appliance.isSmart())
+			{
+				if (appliance.getCurrentMode()=="on")
+					return true; 
+			}
+		}
+			return false; 
+	}
+	
+	//NEEDS FIXING
+	public void setSmartToLow() {  
+		Appliance highestAppliance = new Appliance(-1, "empty", 0, 0, true, 0);
 		for (Appliance appliance : appliances )
 		{
 			if (appliance.isSmart()) 
 			{
 				if (appliance.getCurrentMode()=="on")
 				{
-					appliance.setCurrentMode("low"); 
-					numSetToLow++;
-					break;   //set only one appliance to low and then break
+					if (appliance.getCurrentWattageUsage() > highestAppliance.getCurrentWattageUsage())
+					{
+						highestAppliance = appliance; 
+					}
 				}
 			}
 		}
+		highestAppliance.setCurrentMode("low");
+		numSetToLow++; 
+		energySaved += highestAppliance.getPowerReduction()*highestAppliance.getOnWattage();	
 	}
 	
+
 	public String toString() {
 		String retString = new String();
 		for (Appliance appliance : appliances) 
