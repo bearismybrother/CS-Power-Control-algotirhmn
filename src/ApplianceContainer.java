@@ -3,8 +3,13 @@ import java.util.Vector;
 public class ApplianceContainer {
 
 	private Vector<Appliance> appliances = new Vector<Appliance>();  //change it into vector
+	private static int numSetToLow=0; 
+	private static int numBrownOut=0; 
 	
-	
+	public int getNumberOfAppliances()
+	{
+		return appliances.size();
+	}
 	public void addAppliance(Appliance appliance) 
 	{
 		appliances.add(appliance);
@@ -21,9 +26,10 @@ public class ApplianceContainer {
 		{
 			appliance.setCurrentMode("off"); 
 		}
+		numBrownOut++; 
 	}
 	
-	public double getTotalEnergy() {
+	public double getCurrentWattageUsage() {
 		int total = 0; 
 		for (Appliance appliance : appliances )
 		{
@@ -40,6 +46,7 @@ public class ApplianceContainer {
 				if (appliance.getCurrentMode()=="on")
 				{
 					appliance.setCurrentMode("low"); 
+					numSetToLow++;
 					break;   //set only one appliance to low and then break
 				}
 			}
@@ -54,5 +61,12 @@ public class ApplianceContainer {
 		}
 		retString += "\n";
 		return retString;
+	}
+	
+	public void startOfStep() {
+		for (Appliance appliance : appliances) 
+		{
+			appliance.RandomizeCurrentMode();
+		}
 	}
 }

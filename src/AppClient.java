@@ -28,6 +28,32 @@ class AppClient{
 		}
 	}
 
+	public static void startSimulation(Map<Integer, ApplianceContainer> locations, int allowedWattage, int steps) {
+		int currentWattageUsage =0; 
+		Integer[] locationsSortedBySize = new Integer[locations.size()];
+		int index = 0;
+	    for (Integer locationId : locations.keySet()) {
+	        locationsSortedBySize[index++] = locationId;
+	    }
+	    Arrays.sort(locationsSortedBySize, Comparator.comparingInt(locationId -> locations.get(locationId).getNumberOfAppliances()));
+	    //this sorted the locations by the size of appliances in each location I think??
+ 
+		for (ApplianceContainer applianceContainer: locations.values())
+		{
+			applianceContainer.startOfStep();
+			currentWattageUsage += applianceContainer.getCurrentWattageUsage();	 
+		}
+		
+		int i = 0; 
+		while (currentWattageUsage > allowedWattage) {
+			//attempts to chagne to smart 
+			//implement some code here!!!
+			
+			//if all else fail
+
+			locations.get(locationsSortedBySize[i++]).brownOut(); //brown out the location with lowest appliance 
+		}
+	}
 	public static void addAppliance(Map<Integer, ApplianceContainer> locations, Appliance myApp) {
 		int locationID = myApp.getLocation();
 		if (locations.containsKey(locationID)) {
@@ -110,7 +136,11 @@ class AppClient{
 				{
 					System.out.println("Error: no objects have been added.\n");
 				}else {
-					System.out.println("TODO: implement start the simulation menu option");
+					System.out.println("What is the allowed wattage\n");
+					int wattageAllowed = scan.nextInt(); 
+					System.out.println("Enter numbers of steps\n");
+					int steps = scan.nextInt();
+					startSimulation(locations, wattageAllowed, steps);
 				}
 				break;
 			case "Q":

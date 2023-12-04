@@ -35,7 +35,7 @@ public class Appliance {
 		}
 	}
 	
-	private void RandomizeCurrentMode() {
+	public void RandomizeCurrentMode() {
 	    if (rollGenerator() <= probability)
 	    {
 	    	currentMode = "on";
