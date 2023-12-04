@@ -29,54 +29,56 @@ class AppClient{
 	}
 
 	public static void startSimulation(Map<Integer, ApplianceContainer> locations, int allowedWattage, int steps) {
-		double currentWattageUsage =0; 
-
-		for (ApplianceContainer applianceContainer: locations.values())
-		{
-			applianceContainer.startOfStep();
-			currentWattageUsage += applianceContainer.getCurrentWattageUsage();	 
-		}
-		//grab how much energy is using right now and roll randomizers
-		
-		
-		
-		//sort the locations by size and wattage
-		Integer[] locationsSortedBySize = new Integer[locations.size()]; //low to high
-		Integer[] locationsSortedByWattage = new Integer[locations.size()]; //high to low
-		int index = 0;
-	    for (Integer locationId : locations.keySet()) {
-	        locationsSortedBySize[index] = locationId;
-	        locationsSortedByWattage[index] = locationId;
-	        index++;
-	    }
-	    Arrays.sort(locationsSortedBySize, Comparator.comparingInt(locationId -> locations.get(locationId).getNumberOfAppliances()));
-	   
-	    Arrays.sort(locationsSortedByWattage, Comparator.comparingDouble(locationId -> locations.get(locationId).getCurrentWattageUsage()).reversed());
- 
-		
-		//start of main simulation
-		int locationCount = 0; 
-		int brownOutCount = 0; 
-		while (currentWattageUsage > allowedWattage) {
-			if (locationCount < locationsSortedByWattage.length)
+		for (int curStep = 1; curStep <= steps; curStep++) {
+			double currentWattageUsage =0; 
+	
+			for (ApplianceContainer applianceContainer: locations.values())
 			{
-				ApplianceContainer temp = locations.get(locationsSortedByWattage[locationCount]);
-				if (temp.containsAnySmartAppliancesON())
-				{
-					temp.setSmartToLow();
-				}
-				else
-				{
-					locationCount++;
-				}
+				applianceContainer.startOfStep();
+				currentWattageUsage += applianceContainer.getCurrentWattageUsage();	 
 			}
-			//no more smart appliance to turn to low, time to brown out
-			else 
-				{
-				locations.get(locationsSortedBySize[brownOutCount++]).brownOut();			
-				}
+			//grab how much energy is using right now and roll randomizers
 			
-			currentWattageUsage = currentWattageUsage-ApplianceContainer.energySaved; 
+			
+			
+			//sort the locations by size and wattage
+			Integer[] locationsSortedBySize = new Integer[locations.size()]; //low to high
+			Integer[] locationsSortedByWattage = new Integer[locations.size()]; //high to low
+			int index = 0;
+		    for (Integer locationId : locations.keySet()) {
+		        locationsSortedBySize[index] = locationId;
+		        locationsSortedByWattage[index] = locationId;
+		        index++;
+		    }
+		    Arrays.sort(locationsSortedBySize, Comparator.comparingInt(locationId -> locations.get(locationId).getNumberOfAppliances()));
+		   
+		    Arrays.sort(locationsSortedByWattage, Comparator.comparingDouble(locationId -> locations.get(locationId).getCurrentWattageUsage()).reversed());
+	 
+			
+			//start of main simulation
+			int locationCount = 0; 
+			int brownOutCount = 0; 
+			while (currentWattageUsage > allowedWattage) {
+				if (locationCount < locationsSortedByWattage.length)
+				{
+					ApplianceContainer temp = locations.get(locationsSortedByWattage[locationCount]);
+					if (temp.containsAnySmartAppliancesON())
+					{
+						temp.setSmartToLow();
+					}
+					else
+					{
+						locationCount++;
+					}
+				}
+				//no more smart appliance to turn to low, time to brown out
+				else 
+					{
+					locations.get(locationsSortedBySize[brownOutCount++]).brownOut();			
+					}
+				
+				currentWattageUsage = currentWattageUsage-ApplianceContainer.energySaved; 
+			}
 		}
 	}
 	public static void addAppliance(Map<Integer, ApplianceContainer> locations, Appliance myApp) {
