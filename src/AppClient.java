@@ -30,6 +30,10 @@ class AppClient{
 
 	public static void startSimulation(Map<Integer, ApplianceContainer> locations, int allowedWattage, int steps) {
 		for (int curStep = 1; curStep <= steps; curStep++) {
+			ApplianceContainer.energySaved =0; 
+			ApplianceContainer.numSetToLow=0; 
+			ApplianceContainer.numBrownOut=0; 
+			
 			double currentWattageUsage =0; 
 	
 			for (ApplianceContainer applianceContainer: locations.values())

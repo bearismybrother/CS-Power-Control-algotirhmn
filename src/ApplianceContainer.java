@@ -4,9 +4,8 @@ public class ApplianceContainer {
 
 	private Vector<Appliance> appliances = new Vector<Appliance>();  //change it into vector
 	public static double energySaved =0; 
-	
-	private static int numSetToLow=0; 
-	private static int numBrownOut=0; 
+	public static int numSetToLow=0; 
+	public static int numBrownOut=0; 
 	
 	public int getNumberOfAppliances()
 	{
