@@ -16,9 +16,18 @@ public class ApplianceContainer {
 		appliances.add(appliance);
 	}
 	
-	public void deleteappliance(Appliance appliance) 
+	public void deleteAppliance(String appliance) 
 	{
-		appliances.remove(appliance);
+		Appliance applianceToRemove=appliances.get(0); 
+		for (Appliance tempApp: appliances)
+		{
+			if (tempApp.getDescription().equals(appliance))
+			{
+				applianceToRemove = tempApp; 
+				break;
+			}
+		}
+		appliances.remove(applianceToRemove);
 	}
 	
 	public void brownOut()

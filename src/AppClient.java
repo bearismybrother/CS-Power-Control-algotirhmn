@@ -111,6 +111,18 @@ class AppClient{
 	
 	}
 	
+	public static void deleteAppliance(Map<Integer, ApplianceContainer> locations, int location, String name) {
+		if (locations.containsKey(location)) {
+			locations.get(location).deleteAppliance(name);
+			System.out.println(name + " sucessfuly deleted");
+		}
+		else 
+		{
+			System.out.println("The appliance doesn't exist doesn't exist");
+		}
+	
+	}
+	
 	public static void main(String []args){
 		
 		Map<Integer, ApplianceContainer> locations = new HashMap<Integer, ApplianceContainer>();
@@ -145,7 +157,12 @@ class AppClient{
 				System.out.println("Succesfully added: " + newApp.getDescription() + '\n');
 				break;
 			case "D":
-				System.out.println("TODO: implement deleting an appliance menu option\n");
+				System.out.println("Please enter the location of the appliance you want to delete");
+				int location = scan.nextInt();
+				scan.nextLine();
+				System.out.println("Please enter the name of the appliance you want to delete");
+				String deleteApplianceName = scan.nextLine();
+				deleteAppliance(locations, location, deleteApplianceName);
 				break;
 			case "L":
 				if (locations.isEmpty()) 
