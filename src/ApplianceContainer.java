@@ -29,10 +29,15 @@ public class ApplianceContainer {
 			appliance.setCurrentMode("off"); 
 		}
 		numBrownOut++; 
+		System.out.println("Location #" +appliances.get(0).getLocation() + " has been browned out");
+	}
+	
+	public int getLocation() {
+		return appliances.get(0).getLocation();
 	}
 	
 	public double getCurrentWattageUsage() {
-		int total = 0; 
+		double total = 0; 
 		for (Appliance appliance : appliances )
 		{
 			total += appliance.getCurrentWattageUsage(); 
@@ -69,7 +74,9 @@ public class ApplianceContainer {
 		}
 		highestAppliance.setCurrentMode("low");
 		numSetToLow++; 
-		energySaved += highestAppliance.getPowerReduction()*highestAppliance.getOnWattage();	
+		energySaved += highestAppliance.getPowerReduction()*highestAppliance.getOnWattage();
+		System.out.println(highestAppliance.getDescription() + " turned to low \n It was using " + highestAppliance.getOnWattage() + " now it's using " + highestAppliance.getCurrentWattageUsage()+ " wattages");
+		
 	}
 	
 

@@ -43,6 +43,8 @@ class AppClient{
 			}
 			//grab how much energy is using right now and roll randomizers
 			
+			System.out.println("Wattage Usage Right now: " + currentWattageUsage);
+			
 			
 			
 			//sort the locations by size and wattage
@@ -57,8 +59,18 @@ class AppClient{
 		    Arrays.sort(locationsSortedBySize, Comparator.comparingInt(locationId -> locations.get(locationId).getNumberOfAppliances()));
 		   
 		    Arrays.sort(locationsSortedByWattage, Comparator.comparingDouble(locationId -> locations.get(locationId).getCurrentWattageUsage()).reversed());
+		    
 	 
 			
+		    if (currentWattageUsage-ApplianceContainer.energySaved > allowedWattage)
+		    {
+		    	System.out.println("The current wattage is too high. Begining Energy Saving");
+		    }
+		    else 
+		    {
+		    	System.out.println("Current Wattage is below the limit. No Action Needed");
+		    }
+		    
 			//start of main simulation
 			int locationCount = 0; 
 			int brownOutCount = 0; 
@@ -81,6 +93,9 @@ class AppClient{
 					locations.get(locationsSortedBySize[brownOutCount++]).brownOut();			
 					}
 			}
+			System.out.println("End of Step "+ curStep + ": num of bronwouts: " + ApplianceContainer.numBrownOut);
+			System.out.println("End of Step "+ curStep + ": num of low: " + ApplianceContainer.numSetToLow);
+			System.out.println("End of Step "+ curStep + ": num of energy saved: " + ApplianceContainer.energySaved);
 		}
 	}
 	public static void addAppliance(Map<Integer, ApplianceContainer> locations, Appliance myApp) {
@@ -167,8 +182,10 @@ class AppClient{
 				}else {
 					System.out.println("What is the allowed wattage\n");
 					int wattageAllowed = scan.nextInt(); 
+					scan.nextLine();
 					System.out.println("Enter numbers of steps\n");
 					int steps = scan.nextInt();
+					scan.nextLine();
 					startSimulation(locations, wattageAllowed, steps);
 				}
 				break;
