@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Scanner;
 import java.util.*;
 
@@ -96,7 +97,52 @@ class AppClient{
 			System.out.println("End of Step "+ curStep + ": num of bronwouts: " + ApplianceContainer.numBrownOut);
 			System.out.println("End of Step "+ curStep + ": num of low: " + ApplianceContainer.numSetToLow);
 			System.out.println("End of Step "+ curStep + ": num of energy saved: " + ApplianceContainer.energySaved);
+			
+			try {
+				PrintWriter outputFile = new PrintWriter("test.txt");
+				printToFile(curStep,currentWattageUsage,allowedWattage,locations,locationsSortedBySize,locationsSortedByWattage,outputFile);
+				outputFile.close();
+			}catch (IOException e) {
+					System.out.println("Error occured: file not found");
+			}
 		}
+	}
+	public static void printToFile(int curStep, double curWattageUsage, int allowWattage, Map<Integer, ApplianceContainer> locations, Integer[] locationsSortedBySize, Integer[] locationsSortedByWattage, PrintWriter outputFile) {
+			outputFile.println("Step " + curStep + ":");
+			outputFile.println("Wattage Usage Right now: " + curWattageUsage);
+			 if (curWattageUsage-ApplianceContainer.energySaved > allowWattage)
+			    {
+				 	outputFile.println("The current wattage is too high. Begining Energy Saving");
+			    }
+			    else 
+			    {
+			    	outputFile.println("Current Wattage is below the limit. No Action Needed");
+			    }
+			 int locationCount = 0; 
+			 int brownOutCount = 0; 
+			 while (curWattageUsage-ApplianceContainer.energySaved > allowWattage) {
+				if (locationCount < locationsSortedByWattage.length)
+				{
+					ApplianceContainer temp = locations.get(locationsSortedByWattage[locationCount]);
+					if (temp.containsAnySmartAppliancesON())
+					{
+						temp.setSmartToLow();
+					}
+					else
+					{
+						locationCount++;
+					}
+					
+				}
+				//no more smart appliance to turn to low, time to brown out
+				else 
+					{
+					locations.get(locationsSortedBySize[brownOutCount++]).brownOut();			
+					}
+			}
+			outputFile.println("End of Step "+ curStep + ": num of bronwouts: " + ApplianceContainer.numBrownOut);
+			outputFile.println("End of Step "+ curStep + ": num of low: " + ApplianceContainer.numSetToLow);
+			outputFile.println("End of Step "+ curStep + ": num of energy saved: " + ApplianceContainer.energySaved);
 	}
 	public static void addAppliance(Map<Integer, ApplianceContainer> locations, Appliance myApp) {
 		int locationID = myApp.getLocation();
