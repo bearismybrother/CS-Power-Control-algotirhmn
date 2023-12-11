@@ -1,5 +1,8 @@
 import java.io.File;
 import java.io.IOException;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.util.Scanner;
 import java.util.*;
 
@@ -28,7 +31,27 @@ class AppClient{
 		}
 	}
 
-	public static void startSimulation(Map<Integer, ApplianceContainer> locations, int allowedWattage, int steps) {
+	public static void printToFile(String myString, boolean printCheck) {//prints to the test.txt file
+		try {
+			FileWriter fw;
+			if (printCheck) {//resets file when startSimulation is ran
+				fw = new FileWriter("test.txt",false);
+			} else {
+				fw = new FileWriter("test.txt",true);
+			}
+			BufferedWriter bw = new BufferedWriter (fw);
+			PrintWriter pw = new PrintWriter (bw);
+			pw.println(myString);
+			bw.flush();
+			pw.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public static void startSimulation(Map<Integer, ApplianceContainer> locations, int allowedWattage, int steps) {	
+		boolean printCheck = true; //allows the printer to delete the contents of the test file every time the program is ran
 		for (int curStep = 1; curStep <= steps; curStep++) {
 			ApplianceContainer.energySaved =0; 
 			ApplianceContainer.numSetToLow=0; 
@@ -44,6 +67,8 @@ class AppClient{
 			//grab how much energy is using right now and roll randomizers
 			
 			System.out.println("Wattage Usage Right now: " + currentWattageUsage);
+			printToFile("Wattage Usage Right now: " + currentWattageUsage, printCheck);
+			printCheck = false;
 			
 			
 			
@@ -65,10 +90,12 @@ class AppClient{
 		    if (currentWattageUsage-ApplianceContainer.energySaved > allowedWattage)
 		    {
 		    	System.out.println("The current wattage is too high. Begining Energy Saving");
+		    	printToFile("The current wattage is too high. Begining Energy Saving", printCheck);
 		    }
 		    else 
 		    {
 		    	System.out.println("Current Wattage is below the limit. No Action Needed");
+		    	printToFile("Current Wattage is below the limit. No Action Needed", printCheck);
 		    }
 		    
 			//start of main simulation
@@ -80,7 +107,7 @@ class AppClient{
 					ApplianceContainer temp = locations.get(locationsSortedByWattage[locationCount]);
 					if (temp.containsAnySmartAppliancesON())
 					{
-						temp.setSmartToLow();
+						printToFile(temp.setSmartToLow(), printCheck);
 					}
 					else
 					{
@@ -90,13 +117,17 @@ class AppClient{
 				//no more smart appliance to turn to low, time to brown out
 				else 
 					{
-					locations.get(locationsSortedBySize[brownOutCount++]).brownOut();			
+					printToFile(locations.get(locationsSortedBySize[brownOutCount++]).brownOut(), printCheck);			
 					}
 			}
-			System.out.println("End of Step "+ curStep + ": num of bronwouts: " + ApplianceContainer.numBrownOut);
+			System.out.println("End of Step "+ curStep + ": num of brownouts: " + ApplianceContainer.numBrownOut);
+			printToFile("End of Step "+ curStep + ": num of brownouts: " + ApplianceContainer.numBrownOut, printCheck);
 			System.out.println("End of Step "+ curStep + ": num of low: " + ApplianceContainer.numSetToLow);
-			System.out.println("End of Step "+ curStep + ": num of energy saved: " + ApplianceContainer.energySaved);
+			printToFile("End of Step "+ curStep + ": num of low: " + ApplianceContainer.numSetToLow, printCheck);
+			System.out.println("End of Step "+ curStep + ": num of energy saved: " + ApplianceContainer.energySaved + '\n');
+			printToFile("End of Step "+ curStep + ": num of energy saved: " + ApplianceContainer.energySaved + '\n', printCheck);
 		}
+		
 	}
 	public static void addAppliance(Map<Integer, ApplianceContainer> locations, Appliance myApp) {
 		int locationID = myApp.getLocation();

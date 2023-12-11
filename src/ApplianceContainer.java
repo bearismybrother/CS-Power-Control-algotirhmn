@@ -30,7 +30,7 @@ public class ApplianceContainer {
 		appliances.remove(applianceToRemove);
 	}
 	
-	public void brownOut()
+	public String brownOut()
 	{
 		energySaved += this.getCurrentWattageUsage();
 		for (Appliance appliance : appliances )
@@ -39,6 +39,7 @@ public class ApplianceContainer {
 		}
 		numBrownOut++; 
 		System.out.println("Location #" +appliances.get(0).getLocation() + " has been browned out");
+		return "Location #" +appliances.get(0).getLocation() + " has been browned out";
 	}
 	
 	public int getLocation() {
@@ -66,7 +67,7 @@ public class ApplianceContainer {
 	}
 	
 	//NEEDS FIXING
-	public void setSmartToLow() {  
+	public String setSmartToLow() {  
 		Appliance highestAppliance = new Appliance(-1, "empty", 0, 0, true, 0);
 		for (Appliance appliance : appliances )
 		{
@@ -85,6 +86,7 @@ public class ApplianceContainer {
 		numSetToLow++; 
 		energySaved += highestAppliance.getPowerReduction()*highestAppliance.getOnWattage();
 		System.out.println(highestAppliance.getDescription() + " turned to low \n It was using " + highestAppliance.getOnWattage() + " now it's using " + highestAppliance.getCurrentWattageUsage()+ " wattages");
+		return highestAppliance.getDescription() + " turned to low \n It was using " + highestAppliance.getOnWattage() + " now it's using " + highestAppliance.getCurrentWattageUsage()+ " wattages";
 		
 	}
 	
