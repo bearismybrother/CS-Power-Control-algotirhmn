@@ -1,0 +1,26 @@
+Wattage Usage Right now: 237909.0
+Current Wattage is below the limit. No Action Needed
+End of Step 1: num of brownouts: 0
+End of Step 1: num of low: 0
+End of Step 1: num of energy saved: 0.0
+
+Wattage Usage Right now: 261975.0
+Current Wattage is below the limit. No Action Needed
+End of Step 2: num of brownouts: 0
+End of Step 2: num of low: 0
+End of Step 2: num of energy saved: 0.0
+
+Wattage Usage Right now: 301565.0
+The current wattage is too high. Begining Energy Saving
+Clothes Dryer - Electric turned to low 
+ It was using 5000 now it's using 3750.0 wattages
+Freezer - Upright/Chest 17 cu. ft turned to low 
+ It was using 600 now it's using 450.0 wattages
+Refrigerator - 19 cu. ft. - Frostfree turned to low 
+ It was using 509 now it's using 381.75 wattages
+Refrigerator - 19 cu. ft. - Frostfree turned to low 
+ It was using 509 now it's using 381.75 wattages
+End of Step 3: num of brownouts: 0
+End of Step 3: num of low: 4
+End of Step 3: num of energy saved: 1654.5
+
